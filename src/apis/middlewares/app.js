@@ -12,7 +12,7 @@ const recover = require("../routes/recovered");
 const deaths = require("../routes/deaths");
 
 const Confirm = confirm.router;
-const recover = recover.router;
+const Recover = recover.router;
 const Deaths = deaths.router;
 const Login = login.router;
 const Signup = signup.router;
