@@ -32,11 +32,15 @@ describe("Coutries model ", async () => {
               .then(async function () {
                 return Covid_info.create({
                   confirmed_cases: country_name,
+                  recovered_cases: 0,
+                  no_of_deaths: 0,
                   country_code: country_code,
                 });
               })
               .then((data) => {
                 expect(data.confirmed_cases).toBe(confirm_case);
+                expect(data.recovered_cases).toBe(0);
+                expect(data.no_of_deaths).toBe(0);
                 expect(data.country_code).toBe(country_code);
               });
           });
