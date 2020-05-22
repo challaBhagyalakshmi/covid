@@ -7,8 +7,8 @@ const Country = countries.country;
 async function countries_data() {
   fs.createReadStream("../csv_files/countries.csv")
     .pipe(csv())
-    .on("data", (row) => {
-      const data = Object.values(row);
+    .on("data", async (row) => {
+      const data = await Object.values(row);
       const dat = data[0];
       Country.sync()
         .then(function () {
