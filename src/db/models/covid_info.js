@@ -1,9 +1,6 @@
 const Sequelize = require("sequelize");
 const conn = require("../config/connection");
-const config = require("../config/config");
 const country = require("./countries");
-const csv = require("csv-parser");
-const fs = require("fs");
 
 const sequelize = conn.sequelize;
 const Country = country.country;
