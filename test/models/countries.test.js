@@ -1,5 +1,5 @@
 const request = require("supertest");
-const country = require("../../src/db/models/countries.js");
+const country = require("../../src/db/models/testdb/countries.js");
 const csv = require("csv-parser");
 const fs = require("fs");
 
