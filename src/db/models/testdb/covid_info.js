@@ -1,39 +1,53 @@
 const Sequelize = require("sequelize");
 const conn = require("../../config/testdbconn");
-const country = require("./countries");
 
 const sequelize = conn.sequelize;
-const Country = country.country;
 
-const Covid_info = sequelize.define("covid_infos", {
+const Covid = sequelize.define("covid_infos", {
+  country_name: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true,
+    defaultValue: null,
+    primaryKey: false,
+  },
   confirmed_cases: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    defaultValue: null,
     unique: false,
+    defaultValue: null,
     primaryKey: false,
   },
   recovered_cases: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    defaultValue: null,
     unique: false,
+    defaultValue: null,
     primaryKey: false,
   },
   no_of_deaths: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    defaultValue: null,
     unique: false,
+    defaultValue: null,
+    primaryKey: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    unique: false,
+    defaultValue: null,
+    primaryKey: false,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    unique: false,
+    defaultValue: null,
     primaryKey: false,
   },
 });
 
-Country.hasMany(Covid_info, {
-  foreignKey: "country_code",
-  foreignKeyConstriant: true,
-});
-Covid_info.belongsTo(Country, { foreignKey: "country_code" });
+sequelize.sync();
 
-Covid_info.sync();
-module.exports = { Covid_info };
+module.exports = { Covid };
