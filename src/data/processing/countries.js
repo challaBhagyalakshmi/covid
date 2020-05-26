@@ -1,29 +1,38 @@
 const csv = require("csv-parser");
 const fs = require("fs");
-const countries = require("../../db/Models/countries.js");
+const covid_info = require("../../db/Models/covid.js");
+const update_col_data = require("./upload");
 
-const Country = countries.country;
+const Covid = covid_info.Covid;
 
-async function countries_data() {
+async function export_countries_data() {
+  Covid.destroy({
+    where: {},
+    truncate: true,
+  });
   fs.createReadStream("../csv_files/countries.csv")
     .pipe(csv())
     .on("data", async (row) => {
       const data = await Object.values(row);
       const dat = data[0];
-      Country.sync()
+      Covid.sync()
         .then(function () {
-          return Country.create({
+          return Covid.create({
             country_name: dat,
+            confirmed_cases: 0,
+            recovered_cases: 0,
+            no_of_deaths: 0,
           });
         })
         .then((data) => {
-          console.log(data.country_name);
+          console.log(data);
         });
     })
     .on("end", () => {
+      update_col_data.update_data();
       console.log("csv file successfully processed");
     });
 }
 
-countries_data();
-module.exports = { countries_data };
+export_countries_data();
+module.exports = { export_countries_data };
