@@ -4,7 +4,7 @@ const app = require("../../src/api/Middlewares/app.js");
 describe("This is for top10 countries of covid confirm_cases");
 test("it should return top 10 countries who is having more confirmed cases", () => {
   request(app)
-    .get("auth/confirmed/top10")
+    .get("/confirmed/top10")
     .expect((res) => {
       expect(res.body).toBe([
         {
