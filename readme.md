@@ -22,8 +22,7 @@
     -Db design
         * Models
             1.users(name(unique key),user_id primary key,pass,email(unique key),admin)
-            2.countries(country_name(unique key),id serial(primary key))
-            3.covid_infos(id(primary key) serial,confirm_cases int,recovered_cases,no_of_deaths,country_code(foreign key which is referenced to id in countries table))
+            2.covid_infos(id(primary key) serial,confirm_cases int,recovered_cases,no_of_deaths,country_name string)
 
     -GET Routes
             * /totalconfirmed cases -> It will give the response of top 10 countries of whose having highest number of cases
