@@ -9,7 +9,7 @@ router.get("/top10", auth, async (req, res) => {
   try {
     sequelize
       .query(
-        "select d.country_name,c.confirmed_cases from covid_infos c,countries d where c.country_code=d.id order by c.confirmed_cases desc limit 10"
+        "select country_name,confirmed_cases from covid_infos order by confirmed_cases desc limit 10"
       )
       .then((data) => {
         res.send(data);
