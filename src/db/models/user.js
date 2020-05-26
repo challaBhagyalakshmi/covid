@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
-const config = require("../config/config.js");
 const connection = require("../config/connection.js");
 const sequelize = connection.sequelize;
 
@@ -50,6 +49,7 @@ const User = sequelize.define("users", {
     unique: false,
   },
 });
+
 sequelize.sync();
 
 module.exports = { User };
