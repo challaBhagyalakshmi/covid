@@ -1,51 +1,41 @@
 const request = require("supertest");
 const covid = require("../../src/db/models/testdb/covid_info");
-const country = require("../../src/db/models/countries");
 const csv = require("csv-parser");
 const fs = require("fs");
 
-const Covid_info = covid.Covid_info;
-const Country = country.country;
+const Covid = covid.Covid;
+
 beforeEach(async function () {
-  Covid_info.sync().then(async function () {
+  Covid.sync().then(async function () {
     Covid_info.destroy({
       where: {},
       truncate: true,
     });
   });
 });
-describe("Coutries model ", async () => {
+describe("Covid_info model ", async () => {
   test("it should insert a new record ", async () => {
-    fs.createReadStream("../../src/data/csv_files/confirmed.csv")
+    fs.createReadStream("../../src/data/csv_files/countries.csv")
       .pipe(csv())
       .on("data", async (row) => {
-        const country = await row.Country;
-        const confirm_case = await row["5/18/20"];
-        Country.sync().then(async function () {
-          Country.findAll({
-            where: {
-              country_name: country_name,
-            },
-          }).then((data) => {
-            const country_code = data[0].id;
-            Covid_info.sync()
-              .then(async function () {
-                return Covid_info.create({
-                  confirmed_cases: country_name,
-                  recovered_cases: 0,
-                  no_of_deaths: 0,
-                  country_code: country_code,
-                });
-              })
-              .then((data) => {
-                expect(data.confirmed_cases).toBe(confirm_case);
-                expect(data.recovered_cases).toBe(0);
-                expect(data.no_of_deaths).toBe(0);
-                expect(data.country_code).toBe(country_code);
-              });
+        const data = await Object.values(row);
+        const dat = data[0];
+
+        Covid.sync()
+          .then(async function () {
+            return Covid.create({
+              country_name: dat,
+              confirmed_cases: 0,
+              recovered_cases: 0,
+              no_of_deaths: 0,
+            });
+          })
+          .then((data) => {
+            expect(data.country_name).toBe(dat);
+            expect(data.confirmed_cases).toBe(0);
+            expect(data.no_of_deaths).toBe(0);
+            expect(data.recovered_cases).toBe(0);
           });
-        });
-      })
-      .on("end", () => {});
-  });
+      });
+  }).on("end", () => {});
 });
