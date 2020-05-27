@@ -10,7 +10,7 @@ router.post("/upload", async (req, res) => {
     const user = await findCredentials(req.body.email, req.body.pass);
     if (user) {
       if (user.admin == true) {
-        await upload.upload_data();
+        //await upload.upload_data();
         res.send("successfully uploaded the files");
         res.status(200);
       } else {
@@ -25,19 +25,23 @@ router.post("/upload", async (req, res) => {
 });
 
 async function findCredentials(email, pass) {
-  const user = await User.findOne({
-    where: {
-      email: email,
-    },
-  });
-  if (!user) {
-    throw new Error("Invalid login!");
+  try {
+    const user = await User.findOne({
+      where: {
+        email: email,
+      },
+    });
+    if (!user) {
+      throw new Error("Invalid login!");
+    }
+    const isMatch = await bcrypt.compare(pass, user.pass);
+    if (!isMatch) {
+      throw new Error("login failed");
+    }
+    return user;
+  } catch (error) {
+    console.log(error);
   }
-  const isMatch = await bcrypt.compare(pass, user.pass);
-  if (!isMatch) {
-    throw new Error("login failed");
-  }
-  return user;
 }
 
 module.exports = { router };
