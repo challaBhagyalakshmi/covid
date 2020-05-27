@@ -17,23 +17,31 @@ router.post("/login", async (req, res) => {
 });
 
 async function findCredentials(email, pass) {
-  const user = await User.findOne({
-    where: {
-      email: email,
-    },
-  });
-  if (!user) {
-    throw new Error("Invalid login!");
+  try {
+    const user = await User.findOne({
+      where: {
+        email: email,
+      },
+    });
+    if (!user) {
+      throw new Error("Invalid login!");
+    }
+    const isMatch = await bcrypt.compare(pass, user.pass);
+    if (!isMatch) {
+      throw new Error("login failed");
+    }
+    return user;
+  } catch (error) {
+    console.log(error);
   }
-  const isMatch = await bcrypt.compare(pass, user.pass);
-  if (!isMatch) {
-    throw new Error("login failed");
-  }
-  return user;
 }
 
 async function generatetoken(user) {
-  const token = await jwt.sign({ id: user.id.toString() }, "covid19");
-  return token;
+  try {
+    const token = await jwt.sign({ id: user.id.toString() }, "covid19");
+    return token;
+  } catch (error) {
+    console.log(error);
+  }
 }
 module.exports = { router };
