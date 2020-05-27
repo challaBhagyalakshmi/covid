@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const user = require("../../db/Models/user.js");
-const upload = require("../../data/processing/upload");
+const upload = require("../../data/processing/data_export_countries_col");
 
 const User = user.User;
 router.post("/upload", async (req, res) => {
@@ -10,7 +10,7 @@ router.post("/upload", async (req, res) => {
     const user = await findCredentials(req.body.email, req.body.pass);
     if (user) {
       if (user.admin == true) {
-        //await upload.upload_data();
+        await upload.export_countries_data();
         res.send("successfully uploaded the files");
         res.status(200);
       } else {
