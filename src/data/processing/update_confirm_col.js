@@ -10,14 +10,14 @@ async function export_data_csv_to_db_confirmed() {
     .on("data", async (row) => {
       const country = await row.Country;
       let sum = 0;
-      sum_of_confirm_cases_given_country(country, sum);
+      update_confirmed_cases_col(country, sum);
     })
     .on("end", () => {
       console.log("csv file is successfully processed");
     });
 }
 
-function update_recovered_cases_col(country, sum) {
+function update_confirmed_cases_col(country, sum) {
   total_no_confirm_cases = 0;
   fs.createReadStream("../csv_files/confirmed.csv")
     .pipe(csv())
