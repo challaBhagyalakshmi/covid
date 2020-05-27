@@ -6,11 +6,11 @@ const update_col_data = require("./upload");
 const Covid = covid_info.Covid;
 
 async function export_countries_data() {
-  Covid.destroy({
-    where: {},
-    truncate: true,
-  });
   try {
+    Covid.destroy({
+      where: {},
+      truncate: true,
+    });
     fs.createReadStream("../csv_files/countries.csv")
       .pipe(csv())
       .on("data", async (row) => {
@@ -30,7 +30,6 @@ async function export_countries_data() {
           });
       })
       .on("end", () => {
-        update_col_data.update_data();
         console.log("csv file successfully processed");
       });
   } catch (error) {
