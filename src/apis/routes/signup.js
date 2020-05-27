@@ -38,11 +38,15 @@ router.post("/signup", async (req, res) => {
 });
 
 async function findUser(email) {
-  const user = User.findOne({
-    where: {
-      email: email,
-    },
-  });
-  return user;
+  try {
+    const user = User.findOne({
+      where: {
+        email: email,
+      },
+    });
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
 }
 module.exports = { router };
