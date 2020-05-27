@@ -5,16 +5,20 @@ const covid_info = require("../../db/Models/covid.js");
 const Covid = covid_info.Covid;
 
 async function export_data_csv_to_db_recovered() {
-  fs.createReadStream("../csv_files/recovered.csv")
-    .pipe(csv())
-    .on("data", async (row) => {
-      const country = await row.Country;
-      let sum = 0;
-      update_recovered_cases_col(country, sum);
-    })
-    .on("end", () => {
-      console.log("csv file is successfully processed");
-    });
+  try {
+    fs.createReadStream("../csv_files/recovered.csv")
+      .pipe(csv())
+      .on("data", async (row) => {
+        const country = await row.Country;
+        let sum = 0;
+        update_recovered_cases_col(country, sum);
+      })
+      .on("end", () => {
+        console.log("csv file is successfully processed");
+      });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function update_recovered_cases_col(country, sum) {
