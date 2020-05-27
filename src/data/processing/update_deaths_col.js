@@ -11,7 +11,7 @@ async function export_data_csv_to_db_deaths() {
       .on("data", async (row) => {
         const country = await row.Country;
         let sum = 0;
-        update_deaths_cases_col(country, sum);
+        const res=await update_deaths_cases_col(country, sum);
       })
       .on("end", () => {
         console.log("csv file is successfully processed");
@@ -23,9 +23,9 @@ async function export_data_csv_to_db_deaths() {
 
 async function update_deaths_cases_col(country, sum) {
   try {
-    fs.createReadStream("../csv_files/deaths.csv")
+      fs.createReadStream("../csv_files/deaths.csv")
       .pipe(csv())
-      .on("data", (row) => {
+      .on("data", async (row) => {
         const country_name = row.Country;
         const deaths = row["5/18/20"];
         const no_of_deaths = parseInt(deaths, 10);
@@ -33,10 +33,10 @@ async function update_deaths_cases_col(country, sum) {
           sum = sum + no_of_deaths;
         }
       })
-      .on("end", () => {
+      .on("end", async () => {
         console.log(country + " " + sum);
-        Covid.sync().then(function () {
-          Covid.update(
+        await Covid.sync().then(function () {
+          await Covid.update(
             { no_of_deaths: sum },
             {
               where: {
