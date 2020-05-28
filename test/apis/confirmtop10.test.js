@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../../src/api/Middlewares/app.js");
+const app = require("../../src/server");
 
 describe("This is for top10 countries of covid confirm_cases");
 test("it should return top 10 countries who is having more confirmed cases", () => {
