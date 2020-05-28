@@ -1,6 +1,6 @@
 const request = require("supertest");
 const user = require("../../src/db/Models/testdb/user");
-const app = require("../../src/api/Middlewares/app");
+const app = require("../../src/server.js");
 const bcrypt = require("bcrypt");
 const User = user.User;
 
