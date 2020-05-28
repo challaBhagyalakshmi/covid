@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../../src/api/Middlewares/app.js");
+const app = require("../../src/server");
 const user = require("../../src/db/Models/testdb/user.js");
 
 const User = user.User;
