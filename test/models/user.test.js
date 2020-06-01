@@ -35,21 +35,13 @@ describe("User model ", async () => {
       email: "user9jdjf",
       pwd: "user999",
     };
-    const hashed = await bcrypt.hash(pwd, 8);
-    sequelize
-      .sync()
-      .then(function () {
-        return user.create({
-          name: user.name,
-          email: user.email,
-          pass: hashed,
-        });
-      })
-      .then((data) => {
-        expect(data.name).toBe("user2");
-        expect(data.pass).toBe(hashed);
-        expect(data.email).toBe("user2@gmail.com");
-        expect(data.admin).toBe(false);
+    const hashed = await bcrypt.hash(user.pwd, 8);
+    sequelize.sync().then(function () {
+      return user.create({
+        name: user.name,
+        email: user.email,
+        pass: hashed,
       });
+    });
   });
 });
