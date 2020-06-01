@@ -1,8 +1,10 @@
 const request = require("supertest");
 const user = require("../../src/db/Models/testdb/user");
-const app = require("../../src/api/Middlewares/app");
+const App = require("../../src/server");
 const bcrypt = require("bcrypt");
+
 const User = user.User;
+const App = App.app;
 
 describe("Testcases for Signup ", async () => {
   beforeEach(async () => {
