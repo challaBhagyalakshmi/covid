@@ -10,8 +10,8 @@ describe("Testcases for Signup ", async () => {
   });
 
   test("it should create a new user ", async () => {
-    const pass = "pass123";
-    const hashed = await bcrypt.hash(pass, 8);
+    const pwd = "pass123";
+    const hashed = await bcrypt.hash(pwd, 8);
     request(app)
       .post("/user/signup")
       .send({
@@ -28,8 +28,8 @@ describe("Testcases for Signup ", async () => {
   });
 
   test("it should have bad request if request is invalid", async () => {
-    const pass = "pass222";
-    const hashed = await bcrypt.hash(pass, 8);
+    const pwd = "pass222";
+    const hashed = await bcrypt.hash(pwd, 8);
     request(app)
       .post("/user/signup")
       .send({
@@ -41,8 +41,8 @@ describe("Testcases for Signup ", async () => {
   });
 
   test("should not create a user if user is already existed ", async () => {
-    const pass = "pass333";
-    const hashed = await bcrypt.hash(pass, 8);
+    const pwd = "pass333";
+    const hashed = await bcrypt.hash(pwd, 8);
     request(app)
       .post("/user/signup")
       .send({
