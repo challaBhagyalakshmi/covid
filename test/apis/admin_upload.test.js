@@ -9,8 +9,8 @@ describe("Only admin can only insert the data into db ", async () => {
     User.destroy({ where: {}, truncate: true });
   });
   test("it should create a new user ", async () => {
-    const pass = "covid2019";
-    const hashed = await bcrypt.hash(pass, 8);
+    const pwd = "covid2019";
+    const hashed = await bcrypt.hash(pwd, 8);
     request(app)
       .post("/user/signup")
       .send({
@@ -26,8 +26,8 @@ describe("Only admin can only insert the data into db ", async () => {
       });
   });
   test("should upload the files ", () => {
-    const pass = "covid19";
-    const hashed = await bcrypt.hash(pass, 8);
+    const pwd = "covid19";
+    const hashed = await bcrypt.hash(pwd, 8);
     request(app)
       .post("/admin/upload")
       .send({
@@ -40,8 +40,8 @@ describe("Only admin can only insert the data into db ", async () => {
       });
   });
   test("it should rejects if user is not admin ", () => {
-    const pass = "user234";
-    const hashed = await bcrypt.hash(pass, 8);
+    const pwd = "user234";
+    const hashed = await bcrypt.hash(pwd, 8);
     request(app)
       .post("/admin/upload")
       .send({
