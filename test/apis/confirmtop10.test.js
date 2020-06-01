@@ -1,5 +1,5 @@
 const request = require("supertest");
-const App = require("../../src/api/Middlewares/app.js");
+const App = require("../../src/server.js");
 
 const app = App.app;
 
