@@ -19,12 +19,12 @@ describe("Testcases for Signup ", async () => {
       .send({
         name: "user1",
         email: "user1@gmail.com",
-        pass: hashed,
+        pass: pwd,
       })
       .expect((res) => {
         expect(res.body.name).toBe("user1");
         expect(res.body.email).toBe("user1@gmail.com");
-        expect(res.body.pass).toBe(hashed);
+        expect(res.body.pass).toBe();
         expect(res.status).toBe(200);
       });
   });
@@ -37,20 +37,19 @@ describe("Testcases for Signup ", async () => {
       .send({
         name: "user2",
         email: "djkjdfdjf",
-        pass: hashed,
+        pass: pwd,
       })
       .expect(400);
   });
 
   test("should not create a user if user is already existed ", async () => {
     const pwd = "pass333";
-    const hashed = await bcrypt.hash(pwd, 8);
     request(app)
       .post("/user/signup")
       .send({
         name: "user1",
         email: "user1@gmail.com",
-        pass: hashed,
+        pass: pwd,
       })
       .expect(403);
   });

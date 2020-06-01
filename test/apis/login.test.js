@@ -14,12 +14,11 @@ describe("Authenticating the user ", async () => {
   });
   test("it should create a new user ", async () => {
     const pwd = "pass111";
-    const hashed = await bcrypt.hash(pwd, 8);
     User.sync()
       .then(function () {
         return User.create({
           name: "user1",
-          pass: hashed,
+          pass: pwd,
           email: "user1@gmail.com",
         });
       })
@@ -32,14 +31,13 @@ describe("Authenticating the user ", async () => {
   test("should login the user if existed ", async () => {
     const email = "user1@gmail.com";
     const pwd = "pass111";
-    const hashed = await bcrypt.hash(pwd, 8);
     const user = await login.findCredentials(email);
     const jwt_token = await login.generatetoken(user);
     await request(app)
       .post("/users/login")
       .send({
         email: "user1@gmail.com",
-        pass: hashed,
+        pass: pwd,
       })
       .expect((res) => {
         expect(res.body.email).toBe(email);
@@ -56,7 +54,7 @@ describe("Authenticating the user ", async () => {
       .post("/users/login")
       .send({
         email: "user8@gmail.com",
-        pass: hashed,
+        pass: pwd,
       })
       .expect(400);
   });
