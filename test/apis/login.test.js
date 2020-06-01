@@ -10,8 +10,8 @@ describe("Authenticating the user ", async () => {
   });
 
   test("should login the user if existed ", async () => {
-    const pass = "pass111";
-    const hashed = await bcrypt.hash(pass, 8);
+    const pwd = "pass111";
+    const hashed = await bcrypt.hash(pwd, 8);
     await request(app)
       .post("/users/login")
       .send({
@@ -22,8 +22,8 @@ describe("Authenticating the user ", async () => {
   });
 
   it("should not login nonexistent user ", async () => {
-    const pass = "user9843";
-    const hashed = await bcrypt.hash(pass, 8);
+    const pwd = "user9843";
+    const hashed = await bcrypt.hash(pwd, 8);
     await request(app)
       .post("/users/login")
       .send({
