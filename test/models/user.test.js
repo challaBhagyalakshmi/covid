@@ -33,15 +33,16 @@ describe("User model ", async () => {
     const user = {
       name: "user9",
       email: "user9jdjf",
-      pass: "user999",
+      pwd: "user999",
     };
+    const hashed = await bcrypt.hash(pwd, 8);
     sequelize
       .sync()
       .then(function () {
         return user.create({
           name: user.name,
           email: user.email,
-          pass: user.pass,
+          pass: hashed,
         });
       })
       .then((data) => {
