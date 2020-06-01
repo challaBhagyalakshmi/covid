@@ -14,6 +14,7 @@ describe("Authenticating the user ", async () => {
   });
   test("it should create a new user ", async () => {
     const pwd = "pass111";
+    const hashed = await bcrypt.hash(pwd, 8);
     User.sync()
       .then(function () {
         return User.create({
@@ -31,6 +32,7 @@ describe("Authenticating the user ", async () => {
   test("should login the user if existed ", async () => {
     const email = "user1@gmail.com";
     const pwd = "pass111";
+    const hashed = await bcrypt.hash(pwd, 8);
     const user = await login.findCredentials(email);
     const jwt_token = await login.generatetoken(user);
     await request(app)
