@@ -1,15 +1,17 @@
 const request = require("supertest");
-const app = require("../../src/server");
+const App = require("../../src/server");
 const bcrypt = require("bcrypt");
 const user = require("../../src/db/Models/testdb/user.js");
 
 const User = user.User;
+const app = App.app;
+
 describe("Only admin can only insert the data into db ", async () => {
   beforeEach(async () => {
     User.destroy({ where: {}, truncate: true });
   });
   test("it should create a new user ", async () => {
-    const pwd = "covid2019";
+    const pwd = "covid19";
     const hashed = await bcrypt.hash(pwd, 8);
     request(app)
       .post("/user/signup")
