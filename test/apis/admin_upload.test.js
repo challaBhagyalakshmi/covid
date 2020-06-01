@@ -18,7 +18,7 @@ describe("Only admin can only insert the data into db ", async () => {
       .send({
         name: "bhagya",
         email: "bhagya@gmail.com",
-        pass: hashed,
+        pass: pwd,
       })
       .expect((res) => {
         expect(res.body.name).toBe("bhagya");
@@ -34,7 +34,7 @@ describe("Only admin can only insert the data into db ", async () => {
       .post("/admin/upload")
       .send({
         email: "bhagya@gmail.com",
-        pass: hashed,
+        pass: pwd,
       })
       .expect((res) => {
         expect(res.body).toBe("successfully uploaded the files");
@@ -48,7 +48,7 @@ describe("Only admin can only insert the data into db ", async () => {
       .post("/admin/upload")
       .send({
         email: "user2@gmail.com",
-        pass: hashed,
+        pass: pwd,
       })
       .expect((res) => {
         expect(res.body).toBe("You have no access to upload the files");
