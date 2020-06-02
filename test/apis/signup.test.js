@@ -4,7 +4,7 @@ const App = require("../../src/server");
 const bcrypt = require("bcrypt");
 
 const User = user.User;
-const App = App.app;
+const app = App.app;
 
 describe("Testcases for Signup ", async () => {
   beforeEach(async () => {
