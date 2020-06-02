@@ -27,7 +27,7 @@ describe("Only admin can only insert the data into db ", async () => {
         expect(res.status).toBe(200);
       });
   });
-  test("should upload the files ", () => {
+  test("should upload the files ", async () => {
     const pwd = "covid19";
     const hashed = await bcrypt.hash(pwd, 8);
     request(app)
@@ -41,7 +41,7 @@ describe("Only admin can only insert the data into db ", async () => {
         expect(res.status).toBe(200);
       });
   });
-  test("it should rejects if user is not admin ", () => {
+  test("it should rejects if user is not admin ", async () => {
     const pwd = "user234";
     const hashed = await bcrypt.hash(pwd, 8);
     request(app)
