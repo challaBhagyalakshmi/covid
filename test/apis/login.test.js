@@ -19,7 +19,7 @@ describe("Authenticating the user ", async () => {
       .then(function () {
         return User.create({
           name: "user1",
-          pass: pwd,
+          pass: hashed,
           email: "user1@gmail.com",
         });
       })
