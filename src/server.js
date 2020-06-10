@@ -4,7 +4,7 @@ const cors = require("cors");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const app = express();
-const port = process.env.PORT || 2020;
+const port = process.env.PORT || 2023;
 
 const config = require("./db/config/config");
 const login = require("./apis/routes/login.js");
@@ -13,6 +13,7 @@ const Admin = require("./apis/routes/admin_upload");
 const confirm = require("./apis/routes/confirm");
 const recover = require("./apis/routes/recovered");
 const deaths = require("./apis/routes/deaths");
+const graphvalues = require("./apis/routes/graphvalues");
 
 const Confirm = confirm.router;
 const Recover = recover.router;
@@ -20,6 +21,7 @@ const Deaths = deaths.router;
 const Login = login.router;
 const Signup = signup.router;
 const admin = Admin.router;
+const graph = graphvalues.router;
 
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -30,6 +32,7 @@ app.use("/deaths", Deaths);
 app.use("/user", Signup);
 app.use("/users", Login);
 app.use("/admin", admin);
+app.use("/graphvalues", graph);
 app.use(async (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Content-Type");
@@ -49,6 +52,7 @@ app.use(async (error, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log("Server starts running on port 2019 ...");
-  console.log(port);
+  console.log("Server starts running on port " + port + "...");
 });
+
+module.exports = { app };
