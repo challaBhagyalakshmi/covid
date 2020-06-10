@@ -1,38 +1,30 @@
-const csv = require("csv-parser");
 const fs = require("fs");
-const covid_info = require("../../db/Models/covid.js");
-const update_col_data = require("./upload");
+const csv = require("csv-parser");
+const country = require("../../db/models/countries");
 
-const Covid = covid_info.Covid;
+const path = "../csv_files/countries.csv";
+const Country = country.Country;
 
-async function export_countries_data() {
-  Covid.destroy({
-    where: {},
-    truncate: true,
-  });
-  fs.createReadStream("../csv_files/countries.csv")
+async function export_data_countries_table() {
+  fs.createReadStream(path)
     .pipe(csv())
-    .on("data", async (row) => {
-      const data = await Object.values(row);
-      const dat = data[0];
-      Covid.sync()
+    .on("data", (row) => {
+      const country = row.Country_name;
+      Country.sync()
         .then(function () {
-          return Covid.create({
-            country_name: dat,
-            confirmed_cases: 0,
-            recovered_cases: 0,
-            no_of_deaths: 0,
+          return Country.create({
+            country_name: country,
           });
         })
         .then((data) => {
-          console.log(data);
+          console.log(data.country_code);
         });
     })
     .on("end", () => {
-      update_col_data.update_data();
-      console.log("csv file successfully processed");
+      console.log("csv file is successfully processed");
     });
 }
 
-export_countries_data();
-module.exports = { export_countries_data };
+export_data_countries_table();
+
+module.exports = { export_data_countries_table };
