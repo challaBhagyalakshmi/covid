@@ -9,10 +9,15 @@ router.get("/top10", auth, async (req, res) => {
   try {
     sequelize
       .query(
-        "select country_name,confirmed_cases from covid_infos order by confirmed_cases desc limit 10"
+        "select c.country_name,d.confirm_cases from countries c,covid_infos d where dates=:value and c.country_code=d.country_code order by confirm_cases desc limit 10",
+        { replacements: { value: "6/3/20" } }
       )
       .then((data) => {
-        res.send(data);
+        res.send({
+          status: "Success",
+          Confirmed_cases: data[0],
+          no_of_records: data[1].rowCount,
+        });
         res.status(200);
       });
   } catch (error) {
