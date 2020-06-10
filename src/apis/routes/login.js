@@ -9,10 +9,13 @@ router.post("/login", async (req, res) => {
   try {
     const user = await findCredentials(req.body.email, req.body.pass);
     const token = await generatetoken(user);
+    if (user == false) {
+      throw new Error("Invalid Login!");
+    }
     res.send({ user: user, token: token });
     res.status(200);
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    res.status(401).send({ error: error.message });
   }
 });
 
@@ -24,7 +27,7 @@ async function findCredentials(email, pass) {
       },
     });
     if (!user) {
-      throw new Error("Invalid login!");
+      return false;
     }
     const isMatch = await bcrypt.compare(pass, user.pass);
     if (!isMatch) {
@@ -44,4 +47,4 @@ async function generatetoken(user) {
     console.log(error);
   }
 }
-module.exports = { router };
+module.exports = { router, findCredentials, generatetoken };
