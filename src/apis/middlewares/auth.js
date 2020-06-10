@@ -15,14 +15,19 @@ const auth = async (req, res, next) => {
 };
 
 async function findUser(decoded) {
-  const user = await User.findOne({
-    where: {
-      id: decoded.id,
-    },
-  });
-  if (!user) {
-    throw new Error("Invalid user!");
+  try {
+    const user = await User.findOne({
+      where: {
+        id: decoded.id,
+      },
+    });
+    if (!user) {
+      throw new Error("Invalid user!");
+    }
+    return user;
+  } catch (error) {
+    console.log(error);
   }
-  return user;
 }
+
 module.exports = { auth };
