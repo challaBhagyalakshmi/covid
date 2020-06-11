@@ -24,7 +24,7 @@ describe("Testcases for Signup ", async () => {
       .expect((res) => {
         expect(res.body.name).toBe("user1");
         expect(res.body.email).toBe("user1@gmail.com");
-        expect(res.body.pass).toBe();
+        expect(res.body.pass).toBe(hashed);
         expect(res.status).toBe(200);
       });
   });
@@ -51,6 +51,6 @@ describe("Testcases for Signup ", async () => {
         email: "user1@gmail.com",
         pass: pwd,
       })
-      .expect(403);
+      .expect(400);
   });
 });
