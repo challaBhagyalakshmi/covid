@@ -88,3 +88,16 @@
                     Response body:{
                         "message" :"Invalid user"
                     }
+             */graphvalues->It will give the json response of x(months) and y(no_of_cases) values require for to generate
+            graph
+                    Response body:
+                    {
+                        {
+                            Month:"January",
+                            confirm_cases:"9927",
+                        },
+                        {
+                            Month:"February",
+                            confirm_cases:"86011"
+                        }
+                    }
