@@ -33,18 +33,19 @@ describe("Authenticating the user ", async () => {
     const email = "user1@gmail.com";
     const pwd = "pass111";
     const hashed = await bcrypt.hash(pwd, 8);
-    const user = await login.findCredentials(email);
+    const user = await login.findCredentials(email, pwd);
     const jwt_token = await login.generatetoken(user);
+    console.log(jwt_token);
     await request(app)
       .post("/users/login")
       .send({
         email: "user1@gmail.com",
         pass: pwd,
       })
-      .expect((res) => {
-        expect(res.body.email).toBe(email);
-        expect(res.body.pass).toBe(hashed);
-        expect(re.body.token).toBe(jwt_token);
+      .then((res) => {
+        expect(res.body.user.email).toBe(email);
+        //expect(res.body.user.pass).toBe(hashed);
+        expect(res.body.token).toBe(jwt_token);
         expect(res.status).toBe(200);
       });
   });
@@ -58,6 +59,6 @@ describe("Authenticating the user ", async () => {
         email: "user8@gmail.com",
         pass: pwd,
       })
-      .expect(400);
+      .expect(401);
   });
 });
