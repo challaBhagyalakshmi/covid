@@ -13,18 +13,20 @@ describe("Only admin can only insert the data into db ", async () => {
   test("it should create a new user ", async () => {
     const pwd = "covid19";
     const hashed = await bcrypt.hash(pwd, 8);
-    request(app)
-      .post("/user/signup")
-      .send({
-        name: "bhagya",
-        email: "bhagya@gmail.com",
-        pass: pwd,
+    User.sync()
+      .then(function () {
+        return User.create({
+          name: "bhagya",
+          email: "bhagya@gmail.com",
+          pass: hashed,
+          admin: true,
+        });
       })
-      .expect((res) => {
-        expect(res.body.name).toBe("bhagya");
-        expect(res.body.email).toBe("bhagya@gmail.com");
-        expect(res.body.pass).toBe(hashed);
-        expect(res.status).toBe(200);
+      .then((data) => {
+        expect(data.name).toBe("bhagya");
+        expect(data.email).toBe("bhagya@gmail.com");
+        expect(data.pass).toBe(hashed);
+        expect(data.admin).toBe(true);
       });
   });
   test("should upload the files ", async () => {
@@ -43,7 +45,6 @@ describe("Only admin can only insert the data into db ", async () => {
   });
   test("it should rejects if user is not admin ", async () => {
     const pwd = "user234";
-    const hashed = await bcrypt.hash(pwd, 8);
     request(app)
       .post("/admin/upload")
       .send({
