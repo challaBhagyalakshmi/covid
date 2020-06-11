@@ -9,6 +9,7 @@ describe("Top 10 countries who is having highest recovered cases in world", () =
       .get("/recovered/top10")
       .expect((res) => {
         expect(res.status).toBe(200);
+        expect(res.no_of_records).toBe(10);
       });
   });
 });
