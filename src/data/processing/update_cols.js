@@ -7,14 +7,21 @@ const countrym = require("../../db/models/countries");
 const Covid = covid.Covid;
 const Country = countrym.Country;
 const sequelize = dbconn.sequelize;
-const arr = ["1/31/20", "2/29/20", "3/31/20", "4/30/20", "5/31/20", "6/3/20"];
+const date = [
+  months.jan,
+  months.feb,
+  months.march,
+  months.april,
+  months.may,
+  months.june,
+];
 
 async function update_cols(filepath, file_num) {
   fs.createReadStream(filepath)
     .pipe(csv())
     .on("data", async (row) => {
       let date_val = [];
-      date_val = arr.map((ele) => {
+      date_val = date.map((ele) => {
         return row[ele];
       });
       const country = await row["Country/Region"];
