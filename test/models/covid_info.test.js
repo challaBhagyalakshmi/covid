@@ -15,7 +15,7 @@ beforeEach(async function () {
 });
 describe("Covid_info model ", async () => {
   test("it should insert a new record ", async () => {
-    fs.createReadStream("../../src/data/csv_files/countries.csv")
+    fs.createReadStream("../../src/data/csv_files/confirm.csv")
       .pipe(csv())
       .on("data", async (row) => {
         const data = await Object.values(row);
@@ -24,17 +24,17 @@ describe("Covid_info model ", async () => {
         Covid.sync()
           .then(async function () {
             return Covid.create({
-              country_name: dat,
-              confirmed_cases: 0,
-              recovered_cases: 0,
+              confirm_cases: dat,
+              recover_cases: 0,
               no_of_deaths: 0,
+              dates:'1/31/20'
             });
           })
           .then((data) => {
-            expect(data.country_name).toBe(dat);
-            expect(data.confirmed_cases).toBe(0);
+            expect(data.confirmed_cases).toBe(dat);
             expect(data.no_of_deaths).toBe(0);
-            expect(data.recovered_cases).toBe(0);
+            expect(data.recover_cases).toBe(0);
+            expect(data.dates).toBe('1/31/10');
           });
       });
   }).on("end", () => {});
